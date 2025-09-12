@@ -1,103 +1,159 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useEffect } from 'react';
+import { Header } from './components/Header/header';
+import Socials from './components/Socials/Socials';
+import { TabsFields } from './components/Tabs/TabsFields';
+
+const cursorStyle = `
+  html, body {
+    cursor: none !important;
+  }
+  .custom-cursor {
+    pointer-events: none;
+    position: fixed;
+    z-index: 9999;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
+    filter: blur(2px);
+    transform: translate(-50%, -50%);
+    transition: background 0.2s, transform 0.15s, width 0.15s, height 0.15s;
+    opacity: 0.8;
+  }
+  .custom-cursor.hovered {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.9);
+  }
+`;
+
+export default function HomePage() {
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML =
+      cursorStyle +
+      `
+      html {
+        scroll-behavior: smooth;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(120,120,120,0.15);
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(120,120,120,0.25);
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Scroll com inércia/momentum
+    let velocity = 0;
+    let isAnimating = false;
+    let lastScrollTime = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+
+      const currentTime = performance.now();
+      const deltaTime = currentTime - lastScrollTime;
+      lastScrollTime = currentTime;
+
+      // Adiciona velocidade baseada no delta do scroll
+      velocity += e.deltaY * 0.5;
+
+      // Limita a velocidade máxima
+      velocity = Math.max(-50, Math.min(50, velocity));
+
+      if (!isAnimating) {
+        startMomentumScroll();
+      }
+    };
+
+    const startMomentumScroll = () => {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const animate = () => {
+        if (Math.abs(velocity) < 0.1) {
+          isAnimating = false;
+          velocity = 0;
+          return;
+        }
+
+        // Aplica o scroll
+        const currentScrollY = window.scrollY;
+        const newScrollY = Math.max(0, currentScrollY + velocity);
+        window.scrollTo(0, newScrollY);
+
+        // Aplica "fricção" para diminuir a velocidade gradualmente
+        velocity *= 0.92; // Fator de desaceleração (quanto menor, mais rápido para)
+
+        requestAnimationFrame(animate);
+      };
+
+      requestAnimationFrame(animate);
+    };
+
+    // Adicionar o event listener
+    document.addEventListener('wheel', handleWheel, { passive: false });
+
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+
+    const moveCursor = (e: MouseEvent) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    };
+    window.addEventListener('mousemove', moveCursor);
+
+    // Função para aumentar o cursor ao passar sobre elementos interativos
+    const interactiveElements = document.querySelectorAll(
+      'a, button, input, [data-cursor-hover]'
+    );
+    interactiveElements.forEach((el) => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () =>
+        cursor.classList.remove('hovered')
+      );
+    });
+
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('mousemove', moveCursor);
+      document.body.removeChild(cursor);
+      document.head.removeChild(style);
+      interactiveElements.forEach((el) => {
+        el.removeEventListener('mouseenter', () =>
+          cursor.classList.add('hovered')
+        );
+        el.removeEventListener('mouseleave', () =>
+          cursor.classList.remove('hovered')
+        );
+      });
+    };
+  }, []);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className={`min-h-screen transition-colors duration-300`}>
+      <div className="container mx-auto px-4 py-8 max-w-3xl text-left">
+        <Header />
+        <Socials />
+        <TabsFields />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        {/* Footer */}
+        <div className="text-left text-sm text-muted-foreground px-4">
+          <p>beested.co ©2025. All rights reserved</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
