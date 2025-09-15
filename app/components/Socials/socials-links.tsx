@@ -30,8 +30,8 @@ export const socialLinks = [
 
   {
     name: 'Discord',
-    description: 'Vai ser respondido na hora',
-    subtitle: 'Agora mesmo',
+    description: 'Sem terno e de chinelo',
+    subtitle: 'Comunicação rápida e casual',
     icon: (
       <img
         src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/discord-white-icon.png"

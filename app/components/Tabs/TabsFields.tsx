@@ -11,9 +11,15 @@ export function TabsFields() {
   return (
     <Tabs defaultValue="stack">
       <TabsList className="mx-4 flex gap-2">
-        <TabsTrigger value="stack">Stack</TabsTrigger>
-        <TabsTrigger value="tools">Ferramentas</TabsTrigger>
-        <TabsTrigger value="portfolio">Portifólio</TabsTrigger>
+        <TabsTrigger value="stack" className="cursor-none">
+          Stack
+        </TabsTrigger>
+        <TabsTrigger value="tools" className="cursor-none">
+          Ferramentas
+        </TabsTrigger>
+        <TabsTrigger value="portfolio" className="cursor-none">
+          Portifólio
+        </TabsTrigger>
       </TabsList>
 
       <TabsContents>

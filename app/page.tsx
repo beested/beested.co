@@ -38,6 +38,7 @@ export default function HomePage() {
       `
       html {
         scroll-behavior: smooth;
+        
       }
       ::-webkit-scrollbar {
         width: 8px;

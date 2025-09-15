@@ -3,8 +3,11 @@ import { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata = {
-  title: 'Seu Nome - Links',
-  description: 'Meus links e tecnologias',
+  title: 'beested - co',
+  description: '',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 interface RootLayoutProps {
