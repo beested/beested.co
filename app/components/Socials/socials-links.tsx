@@ -43,4 +43,19 @@ export const socialLinks = [
     color: 'from-indigo-500 to-purple-600',
     isDiscord: true,
   },
+
+  {
+    name: 'Spotify',
+    description: 'Mais eclético impossível',
+    subtitle: 'Sempre vai ter algo tocando',
+    icon: (
+      <img
+        src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/spotify-white-icon.png"
+        alt="Spotify"
+        className="w-6 h-6"
+      />
+    ),
+    url: 'https://open.spotify.com/user/22gy3cdhmtylnhvsnthfhbgyi',
+    color: 'from-green-500 to-green-700',
+  },
 ];

@@ -23,7 +23,6 @@ export function TabsFields() {
       </TabsList>
 
       <TabsContents>
-        {/* Stack */}
         <TabsContent value="stack" className="p-4">
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
             {techs.map((tech, index) => (
@@ -48,8 +47,6 @@ export function TabsFields() {
             ))}
           </div>
         </TabsContent>
-
-        {/* Tools */}
         <TabsContent value="tools" className="p-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {tools.map((tool, index) => (
@@ -74,17 +71,12 @@ export function TabsFields() {
             ))}
           </div>
         </TabsContent>
-
-        {/* Portfólio */}
         <TabsContent
           value="portfolio"
           className="p-4 flex flex-col items-center justify-center  h-full"
         >
           <div className="w-full h-full rounded-lg border transition-all duration-300 hover:scale-102 flex flex-col items-center justify-center gap-4">
-            {/* Spinner */}
             <div className="w-12 h-12 border-4 border-dashed border-blue-500 rounded-full animate-spin"></div>
-
-            {/* Texto */}
             <span className="text-lg font-bold text-white text-center animate-pulse">
               Portifólio em construção 🚧
             </span>
