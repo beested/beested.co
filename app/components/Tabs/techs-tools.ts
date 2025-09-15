@@ -88,4 +88,10 @@ export const tools = [
     image: 'https://img.icons8.com/m_sharp/512/FFFFFF/notion.png',
     description: 'Organização e anotações',
   },
+  {
+    name: 'Vercel',
+    image:
+      'https://develop.finki.ukim.mk/projects/Caessino/export/e90323425d07a533dfc916a6cd7c156c1cc2b8f6/public/favicon-vercel.ico',
+    description: 'Deploy de aplicações',
+  },
 ];

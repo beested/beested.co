@@ -6,19 +6,20 @@ const validRoutes = ['/home', '/404'];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // ignora arquivos estáticos e API routes
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.match(/\.[^/]+$/)
+  ) {
     return NextResponse.next();
   }
 
-  // se for a raiz, redireciona para /home
   if (pathname === '/') {
     const url = request.nextUrl.clone();
     url.pathname = '/home';
     return NextResponse.redirect(url);
   }
 
-  // se não estiver entre as rotas válidas, reescreve para /404
   if (!validRoutes.includes(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = '/404';

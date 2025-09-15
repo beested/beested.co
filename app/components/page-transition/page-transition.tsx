@@ -19,7 +19,7 @@ export default function PageTransition({
         exit={{ opacity: 0, scale: 1.05, rotate: 5 }}
         transition={{
           duration: 0.5,
-          ease: [0.25, 0.1, 0.25, 1], // ease-in-out suave
+          ease: [0.25, 0.1, 0.25, 1],
         }}
         className="h-full"
       >
