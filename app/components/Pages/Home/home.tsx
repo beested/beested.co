@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Header } from '../../Header/header';
-import Socials from '../../Socials/Socials';
-import { TabsFields } from '../../Tabs/TabsFields';
 import FooterText from '../../footer-text/footer-text';
 import PageContainer from '../../page-container/page-container';
+import { Header } from './Header/header';
+import Socials from './Socials/Socials';
+import { TabsFields } from './Tabs/TabsFields';
 
 const cursorStyle = `
   html, body {
